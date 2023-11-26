@@ -1,18 +1,4 @@
-/**
- * @internal
- * @hidden
- */
-export function devMode() {
-  return process.env.NODE_ENV !== "production";
-}
-
-/**
- * @internal
- * @hidden
- */
-export function fail(message = "Illegal state"): Error {
-  return new Error("[mobx-forge] " + message);
-}
+import { devMode, fail, Hook } from "./utilities";
 
 /** @hidden */
 export interface ModelProperties {
@@ -26,14 +12,6 @@ export type ModelPrimitive = string | number | boolean | Date;
 export interface ModelPropertiesDeclaration {
   [key: string]: ModelPrimitive | any;
 }
-
-export const Hook = {
-  afterCreate: "afterCreate",
-  afterAttach: "afterAttach",
-  afterCreationFinalization: "afterCreationFinalization",
-  beforeDetach: "beforeDetach",
-  beforeDestroy: "beforeDestroy",
-} as const;
 
 function toPropertiesObject(
   declaredProps: ModelPropertiesDeclaration

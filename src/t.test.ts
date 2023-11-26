@@ -1,5 +1,6 @@
 import { describe, expect, it, test } from "bun:test";
-import { t, Hook } from "./t";
+import { t } from "./t";
+import { Hook } from "./utilities";
 
 describe("t", () => {
   it("should be defined", () => {
