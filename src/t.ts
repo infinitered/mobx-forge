@@ -33,6 +33,14 @@ function toPropertiesObject(
       );
     }
 
+    // Properties objects may not use null or undefined as the default value. If a user wants to use null or undefined, they should use `types.maybe(someType)` or `types.maybeNull(someType)`
+    const value = descriptor.value;
+    if (value === null || value === undefined) {
+      throw fail(
+        "The default value of an attribute cannot be null or undefined as the type cannot be inferred. Did you mean `types.maybe(someType)`?"
+      );
+    }
+
     return props;
   }, declaredProps as any);
 }

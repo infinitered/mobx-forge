@@ -143,28 +143,28 @@ describe("t", () => {
         );
       });
     });
-    // describe("when a user attempts to define a property with null as the value", () => {
-    //   test("it throws an error", () => {
-    //     expect(() => {
-    //       t.model({
-    //         foo: null as any,
-    //       });
-    //     }).toThrow(
-    //       `"[mobx-state-tree] The default value of an attribute cannot be null or undefined as the type cannot be inferred. Did you mean \`types.maybe(someType)\`?"`
-    //     );
-    //   });
-    // });
-    // describe("when a user attempts to define a property with undefined as the value", () => {
-    //   test("it throws an error", () => {
-    //     expect(() => {
-    //       t.model({
-    //         foo: undefined as any,
-    //       });
-    //     }).toThrow(
-    //       `"[mobx-state-tree] The default value of an attribute cannot be null or undefined as the type cannot be inferred. Did you mean \`types.maybe(someType)\`?"`
-    //     );
-    //   });
-    // });
+    describe("when a user attempts to define a property with null as the value", () => {
+      test("it throws an error", () => {
+        expect(() => {
+          t.model({
+            foo: null as any,
+          });
+        }).toThrow(
+          "[mobx-forge] The default value of an attribute cannot be null or undefined as the type cannot be inferred. Did you mean `types.maybe(someType)`?"
+        );
+      });
+    });
+    describe("when a user attempts to define a property with undefined as the value", () => {
+      test("it throws an error", () => {
+        expect(() => {
+          t.model({
+            foo: undefined as any,
+          });
+        }).toThrow(
+          "[mobx-forge] The default value of an attribute cannot be null or undefined as the type cannot be inferred. Did you mean `types.maybe(someType)`?"
+        );
+      });
+    });
     // describe("when a user defines a property using a primitive value (not null or undefined)", () => {
     //   describe("and the primitive value is a string", () => {
     //     test("it converts a string to an optional string", () => {
@@ -301,7 +301,7 @@ describe("t", () => {
     //           foo: () => "bar",
     //         });
     //       }).toThrow(
-    //         `"[mobx-state-tree] Invalid type definition for property 'foo', it looks like you passed a function. Did you forget to invoke it, or did you intend to declare a view / action?"`
+    //         `"[mobx-forge] Invalid type definition for property 'foo', it looks like you passed a function. Did you forget to invoke it, or did you intend to declare a view / action?"`
     //       );
     //     });
     //   }
@@ -315,7 +315,7 @@ describe("t", () => {
     //           foo: {},
     //         });
     //       }).toThrow(
-    //         `"[mobx-state-tree] Invalid type definition for property 'foo', it looks like you passed an object. Try passing another model type or a types.frozen."`
+    //         `"[mobx-forge] Invalid type definition for property 'foo', it looks like you passed an object. Try passing another model type or a types.frozen."`
     //       );
     //     });
     //   }
