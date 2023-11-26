@@ -27,12 +27,26 @@ export interface ModelPropertiesDeclaration {
   [key: string]: ModelPrimitive | any;
 }
 
+export const Hook = {
+  afterCreate: "afterCreate",
+  afterAttach: "afterAttach",
+  afterCreationFinalization: "afterCreationFinalization",
+  beforeDetach: "beforeDetach",
+  beforeDestroy: "beforeDestroy",
+} as const;
+
 function toPropertiesObject(
   declaredProps: ModelPropertiesDeclaration
 ): ModelProperties {
   const keysList = Object.keys(declaredProps);
 
   return keysList.reduce((props, key) => {
+    // Make sure we don't use a property with the name of a lifecycle hook. Those should be reserved for MobX-Forge usage.
+    if (key in Hook) {
+      throw fail(
+        `Hook '${key}' was defined as property. Hooks should be defined as part of the actions`
+      );
+    }
     // The user probably intended to use a view if they are calling a function `get ...`
     const descriptor = Object.getOwnPropertyDescriptor(declaredProps, key)!;
     if ("get" in descriptor) {
@@ -80,4 +94,5 @@ const model = (...args: any[]): IModelType => {
 
 export const t = {
   model,
+  string: "string",
 };

@@ -1,5 +1,5 @@
 import { describe, expect, it, test } from "bun:test";
-import { t } from "./t";
+import { t, Hook } from "./t";
 
 describe("t", () => {
   it("should be defined", () => {
@@ -115,18 +115,18 @@ describe("t", () => {
     });
   });
   describe("Model properties objects", () => {
-    describe.skip("when a user names a property the same as an MST lifecycle hook", () => {
-      test.todo("it throws an error", () => {
-        // const hookValues = Object.values(Hook);
-        // hookValues.forEach((hook) => {
-        //   expect(() => {
-        //     types.model({
-        //       [hook]: types.string,
-        //     });
-        //   }).toThrowErrorMatchingInlineSnapshot(
-        //     `"[mobx-state-tree] Hook '${hook}' was defined as property. Hooks should be defined as part of the actions"`
-        //   );
-        // });
+    describe("when a user names a property the same as a lifecycle hook", () => {
+      test("it throws an error", () => {
+        const hookValues = Object.values(Hook);
+        hookValues.forEach((hook) => {
+          expect(() => {
+            t.model({
+              [hook]: t.string,
+            });
+          }).toThrow(
+            `[mobx-forge] Hook '${hook}' was defined as property. Hooks should be defined as part of the actions`
+          );
+        });
       });
     });
     describe("when a user attempts to define a property with the get keyword", () => {
