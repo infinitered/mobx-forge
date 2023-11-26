@@ -13,6 +13,24 @@ export interface ModelPropertiesDeclaration {
   [key: string]: ModelPrimitive | any;
 }
 
+class PrimitiveType<T> {
+  name: string;
+  value: T;
+  optional: boolean = true;
+
+  constructor(name: string, value: T) {
+    this.name = name;
+    this.value = value;
+  }
+  /**
+   * Returns a string representation of the primitive type. It will be suffixed with a `?` if the type is optional.
+   * @returns {string} A string representation of the primitive type.
+   */
+  describe() {
+    return this.optional ? `${this.name}?` : this.name;
+  }
+}
+
 function toPropertiesObject(
   declaredProps: ModelPropertiesDeclaration
 ): ModelProperties {
@@ -41,6 +59,12 @@ function toPropertiesObject(
       );
     }
 
+    // Otherwise, create a primitive type. We have not build support for complex types yet.
+    props[key] = new PrimitiveType(
+      typeof value,
+      value
+    ) as unknown as ModelPrimitive;
+
     return props;
   }, declaredProps as any);
 }
@@ -48,6 +72,8 @@ function toPropertiesObject(
 interface IModelType {
   name?: string;
   properties: any;
+  description?: string;
+  describe(): string;
 }
 
 interface IModelTypeArguments {
@@ -58,11 +84,34 @@ interface IModelTypeArguments {
 class ModelType implements IModelType {
   name?: string | undefined;
   properties: any;
+  description?: string | undefined;
+  private readonly propertyNames: string[];
 
   constructor(opts: IModelTypeArguments) {
     const { name, properties } = opts;
     this.name = name;
     this.properties = toPropertiesObject(properties);
+    this.propertyNames = Object.keys(this.properties);
+  }
+
+  /**
+   * Returns a string representation of the model's properties. This can be used to understand
+   * the "shape" of a model. For example, `types.model({ foo: types.string })` will return
+   * `{foo: string}`.
+   * @returns {string}
+   */
+  describe() {
+    if (this.description) {
+      return this.description;
+    } else {
+      this.description =
+        "{ " +
+        this.propertyNames
+          .map((key) => key + ": " + this.properties[key].describe())
+          .join("; ") +
+        " }";
+      return this.description;
+    }
   }
 }
 

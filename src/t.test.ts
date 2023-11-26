@@ -165,27 +165,28 @@ describe("t", () => {
         );
       });
     });
-    // describe("when a user defines a property using a primitive value (not null or undefined)", () => {
-    //   describe("and the primitive value is a string", () => {
-    //     test("it converts a string to an optional string", () => {
-    //       const Model = t.model({
-    //         foo: "bar",
-    //       });
+    describe("when a user defines a property using a primitive value (not null or undefined)", () => {
+      describe("and the primitive value is a string", () => {
+        test("it converts a string to an optional string", () => {
+          const Model = t.model({
+            foo: "bar",
+          });
 
-    //       const modelDescription = Model.describe();
-    //       expect(modelDescription).toBe("{ foo: string? }");
-    //     });
-    //     test("it uses the primitive value as the default value", () => {
-    //       const Model = t.model({
-    //         foo: "bar",
-    //       });
+          const modelDescription = Model.describe();
+          expect(modelDescription).toBe("{ foo: string? }");
+        });
+        // test("it uses the primitive value as the default value", () => {
+        //   const Model = t.model({
+        //     foo: "bar",
+        //   });
 
-    //       const modelSnapshot = getSnapshot(Model.create());
-    //       expect(modelSnapshot).toEqual({
-    //         foo: "bar",
-    //       });
-    //     });
-    //   });
+        //   const modelSnapshot = getSnapshot(Model.create());
+        //   expect(modelSnapshot).toEqual({
+        //     foo: "bar",
+        //   });
+        // });
+      });
+    });
     //   describe("and the primitive value is a number", () => {
     //     test("it converts a number to an optional number", () => {
     //       const Model = t.model({
