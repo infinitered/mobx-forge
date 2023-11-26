@@ -14,6 +14,37 @@ export function fail(message = "Illegal state"): Error {
   return new Error("[mobx-forge] " + message);
 }
 
+/** @hidden */
+export interface ModelProperties {
+  [key: string]: any;
+}
+
+/** @hidden */
+export type ModelPrimitive = string | number | boolean | Date;
+
+/** @hidden */
+export interface ModelPropertiesDeclaration {
+  [key: string]: ModelPrimitive | any;
+}
+
+function toPropertiesObject(
+  declaredProps: ModelPropertiesDeclaration
+): ModelProperties {
+  const keysList = Object.keys(declaredProps);
+
+  return keysList.reduce((props, key) => {
+    // The user probably intended to use a view if they are calling a function `get ...`
+    const descriptor = Object.getOwnPropertyDescriptor(declaredProps, key)!;
+    if ("get" in descriptor) {
+      throw fail(
+        "Getters are not supported as properties. Please use views instead"
+      );
+    }
+
+    return props;
+  }, declaredProps as any);
+}
+
 interface IModelType {
   name?: string;
   properties: any;
@@ -28,10 +59,10 @@ class ModelType implements IModelType {
   name?: string | undefined;
   properties: any;
 
-  constructor(args: IModelTypeArguments) {
-    const { name, properties } = args;
+  constructor(opts: IModelTypeArguments) {
+    const { name, properties } = opts;
     this.name = name;
-    this.properties = properties;
+    this.properties = toPropertiesObject(properties);
   }
 }
 
