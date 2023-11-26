@@ -10,5 +10,11 @@
   },
   "peerDependencies": {
     "mobx": "^6.11.0"
+  },
+  "scripts": {
+    "build": "bun ./build.ts",
+    "test:all": "NODE_ENV=development bun test && NODE_ENV=production bun test",
+    "test:dev": "NODE_ENV=development bun test",
+    "test:prod": "NODE_ENV=production bun test"
   }
 }
