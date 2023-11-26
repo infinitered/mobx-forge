@@ -31,6 +31,29 @@ class PrimitiveType<T> {
   }
 }
 
+/**
+ * A node should take a set of properties and return a new object with those properties. It should also have a snapshot
+ * method that returns the current state of the node.
+ */
+class Node {
+  properties: any = {};
+
+  // We'll be given a set of properties, and we want to unbox them into the properties object.
+  constructor(properties: ModelProperties) {
+    const keys = Object.keys(properties);
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      const property = properties[key];
+      this.properties[key] = property.value;
+    }
+  }
+
+  // We want to return the current state of the node.
+  snapshot() {
+    return this.properties;
+  }
+}
+
 function toPropertiesObject(
   declaredProps: ModelPropertiesDeclaration
 ): ModelProperties {
@@ -59,6 +82,18 @@ function toPropertiesObject(
       );
     }
 
+    if (devMode() && typeof value === "function") {
+      throw fail(
+        `Invalid type definition for property '${key}', it looks like you passed a function. Did you forget to invoke it, or did you intend to declare a view / action?`
+      );
+    }
+
+    if (devMode() && typeof value === "object") {
+      throw fail(
+        `Invalid type definition for property '${key}', it looks like you passed an object. Try passing another model type or a types.frozen.`
+      );
+    }
+
     // Otherwise, create a primitive type. We have not build support for complex types yet.
     props[key] = new PrimitiveType(
       typeof value,
@@ -74,6 +109,7 @@ interface IModelType {
   properties: any;
   description?: string;
   describe(): string;
+  create(): any;
 }
 
 interface IModelTypeArguments {
@@ -113,6 +149,10 @@ class ModelType implements IModelType {
       return this.description;
     }
   }
+
+  create() {
+    return new Node(this.properties);
+  }
 }
 
 const model = (...args: any[]): IModelType => {
@@ -125,6 +165,10 @@ const model = (...args: any[]): IModelType => {
   const name = typeof args[0] === "string" ? args.shift() : "AnonymousModel";
   const properties = args.shift() || {};
   return new ModelType({ name, properties });
+};
+
+export const getSnapshot = (target: any) => {
+  return target.snapshot();
 };
 
 export const t = {
