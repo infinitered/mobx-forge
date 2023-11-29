@@ -1,7 +1,10 @@
 import { model } from "./model";
 import { StringPrimitive } from "./StringPrimitive";
+import { NumberPrimitive } from "./NumberPrimitive";
 
-export const string: any = new StringPrimitive();
+const string: any = new StringPrimitive();
+
+const number: any = new NumberPrimitive();
 
 export const getSnapshot = (target: any) => {
   return target.snapshot();
@@ -18,6 +21,6 @@ export const t = {
   identifierNumber: null,
   integer: null,
   null: null,
-  number: null,
+  number,
   undefined: null,
 };
