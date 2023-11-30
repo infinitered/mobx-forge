@@ -1,5 +1,4 @@
 import { model } from "./model";
-import { BooleanPrimitive } from "./BooleanPrimitive";
 import { DatePrimitive } from "./DatePrimitive";
 import { PrimitiveType } from "./types/primitives";
 import { TypeFlags } from "./utilities";
@@ -18,7 +17,12 @@ const number: any = new PrimitiveType(
   (v: any) => v
 );
 
-const boolean: any = new BooleanPrimitive();
+const boolean: any = new PrimitiveType(
+  "boolean",
+  TypeFlags.Boolean,
+  (v: any) => typeof v === "boolean",
+  (v: any) => v
+);
 
 const Date: any = new DatePrimitive();
 
