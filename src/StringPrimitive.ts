@@ -82,7 +82,6 @@ export class StringPrimitive {
   }
 
   is(thing: any): thing is any {
-    debugger;
     return this.validate(thing, [{ path: "", type: this }]).length === 0;
   }
 }
