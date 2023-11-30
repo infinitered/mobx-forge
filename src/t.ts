@@ -1,30 +1,5 @@
 import { model } from "./model";
-import { DatePrimitive } from "./DatePrimitive";
-import { PrimitiveType } from "./types/primitives";
-import { TypeFlags } from "./utilities";
-
-const string: any = new PrimitiveType(
-  "string",
-  TypeFlags.String,
-  (v: any) => typeof v === "string",
-  (v: any) => v
-);
-
-const number: any = new PrimitiveType(
-  "number",
-  TypeFlags.Number,
-  (v: any) => typeof v === "number",
-  (v: any) => v
-);
-
-const boolean: any = new PrimitiveType(
-  "boolean",
-  TypeFlags.Boolean,
-  (v: any) => typeof v === "boolean",
-  (v: any) => v
-);
-
-const Date: any = new DatePrimitive();
+import { string, number, boolean, date } from "./types/primitives";
 
 export const getSnapshot = (target: any) => {
   return target.snapshot();
@@ -33,14 +8,14 @@ export const getSnapshot = (target: any) => {
 export const t = {
   model,
   string,
-  Date,
+  Date: date,
   boolean,
-  finite: null,
-  float: null,
-  identifier: null,
-  identifierNumber: null,
-  integer: null,
-  null: null,
+  finite: "to be implemented",
+  float: "to be implemented",
+  identifier: "to be implemented",
+  identifierNumber: "to be implemented",
+  integer: "to be implemented",
+  null: "to be implemented",
   number,
-  undefined: null,
+  undefined: "to be implemented",
 };

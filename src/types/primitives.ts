@@ -7,7 +7,7 @@ import {
   typeCheckFailure,
 } from "../types/type-utilities";
 
-export class PrimitiveType {
+class PrimitiveType {
   readonly flags;
   readonly isType = true;
 
@@ -41,8 +41,8 @@ export class PrimitiveType {
   }
 
   create(snapshot?: any, environment?: any) {
-    if (typeof snapshot !== this.name) {
-      throw new Error(`Expected ${this.name}`);
+    if (!this.checker(snapshot)) {
+      throw new Error(`Value is not a ${this.name}`);
     }
     return this.instantiate(null, "", environment, snapshot!).value;
   }
@@ -56,7 +56,12 @@ export class PrimitiveType {
       return typeCheckSuccess();
     }
 
-    return typeCheckFailure(context, value, `Value is not a ${this.name}`);
+    // We offer a slightly more specific error message for dates.
+    const typeName =
+      this.name === "Date"
+        ? "Date or a unix milliseconds timestamp"
+        : this.name;
+    return typeCheckFailure(context, value, `Value is not a ${typeName}`);
   }
 
   isAssignableFrom(type: any): boolean {
@@ -70,21 +75,19 @@ export class PrimitiveType {
       return this.isAssignableFrom(valueType)
         ? typeCheckSuccess()
         : typeCheckFailure(context, value);
-      // it is tempting to compare snapshots, but in that case we should always clone on assignments...
     }
     return this.isValidSnapshot(value, context);
   }
 
   getValue(node: any): any {
-    // if we ever find a case where scalar nodes can be accessed without iterating through its parent
-    // uncomment this to make sure the parent chain is created when this is accessed
-    // if (node.parent) {
-    //     node.parent.createObservableInstanceIfNeeded()
-    // }
     return node.storedValue;
   }
 
   getSnapshot(node: any): any {
+    // We serialize date values to their Unix timestamp in milliseconds in snapshots. All other primitive types can use their stored value as-is.
+    if (node.storedValue instanceof Date) {
+      return node.storedValue.getTime();
+    }
     return node.storedValue;
   }
 
@@ -96,3 +99,31 @@ export class PrimitiveType {
     return this.validate(thing, [{ path: "", type: this }]).length === 0;
   }
 }
+
+export const string: any = new PrimitiveType(
+  "string",
+  TypeFlags.String,
+  (v: any) => typeof v === "string",
+  (v: any) => v
+);
+
+export const number: any = new PrimitiveType(
+  "number",
+  TypeFlags.Number,
+  (v: any) => typeof v === "number",
+  (v: any) => v
+);
+
+export const boolean: any = new PrimitiveType(
+  "boolean",
+  TypeFlags.Boolean,
+  (v: any) => typeof v === "boolean",
+  (v: any) => v
+);
+
+export const date: any = new PrimitiveType(
+  "Date",
+  TypeFlags.Date,
+  (v: any) => v instanceof Date || typeof v === "number",
+  (v: any) => (v instanceof Date ? v : new Date(v))
+);
