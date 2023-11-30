@@ -2,12 +2,15 @@ import { model } from "./model";
 import { StringPrimitive } from "./StringPrimitive";
 import { NumberPrimitive } from "./NumberPrimitive";
 import { BooleanPrimitive } from "./BooleanPrimitive";
+import { DatePrimitive } from "./DatePrimitive";
 
 const string: any = new StringPrimitive();
 
 const number: any = new NumberPrimitive();
 
 const boolean: any = new BooleanPrimitive();
+
+const Date: any = new DatePrimitive();
 
 export const getSnapshot = (target: any) => {
   return target.snapshot();
@@ -16,7 +19,7 @@ export const getSnapshot = (target: any) => {
 export const t = {
   model,
   string,
-  Date: null,
+  Date,
   boolean,
   finite: null,
   float: null,
