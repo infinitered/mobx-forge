@@ -1,10 +1,10 @@
 import { createScalarNode } from "../ScalarNode";
-import { TypeFlags } from "../utilities";
 import { getStateTreeNodeSafe } from "../state/state-utiltities";
 import {
   getType,
   typeCheckSuccess,
   typeCheckFailure,
+  TypeFlags,
 } from "../types/type-utilities";
 
 class PrimitiveType {
