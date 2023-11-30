@@ -1,10 +1,16 @@
 import { model } from "./model";
-import { StringPrimitive } from "./StringPrimitive";
 import { NumberPrimitive } from "./NumberPrimitive";
 import { BooleanPrimitive } from "./BooleanPrimitive";
 import { DatePrimitive } from "./DatePrimitive";
+import { PrimitiveType } from "./types/primitives";
+import { TypeFlags } from "./utilities";
 
-const string: any = new StringPrimitive();
+const string: any = new PrimitiveType(
+  "string",
+  TypeFlags.String,
+  (v: any) => typeof v === "string",
+  (v: any) => v
+);
 
 const number: any = new NumberPrimitive();
 
