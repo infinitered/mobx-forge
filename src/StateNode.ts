@@ -1,11 +1,10 @@
+import { devMode, fail } from "./utilities";
 import {
   EventHandlers,
   Hook,
   NodeLifeCycle,
-  devMode,
   escapeJsonPath,
-  fail,
-} from "./utilities";
+} from "./state/state-utiltities";
 import { createAtom } from "mobx";
 
 /**

@@ -6,6 +6,7 @@ import {
   typeCheckFailure,
   TypeFlags,
 } from "../types/type-utilities";
+import { devMode } from "../utilities";
 
 class PrimitiveType {
   readonly flags;
@@ -41,7 +42,7 @@ class PrimitiveType {
   }
 
   create(snapshot?: any, environment?: any) {
-    if (!this.checker(snapshot)) {
+    if (devMode() && !this.checker(snapshot)) {
       throw new Error(`Value is not a ${this.name}`);
     }
     return this.instantiate(null, "", environment, snapshot!).value;
