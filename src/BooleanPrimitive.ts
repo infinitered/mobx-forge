@@ -7,18 +7,18 @@ import {
   typeCheckFailure,
 } from "./types/type-utilities";
 
-export class NumberPrimitive {
-  readonly flags: TypeFlags = TypeFlags.Number;
+export class BooleanPrimitive {
+  readonly flags: TypeFlags = TypeFlags.Boolean;
   readonly isType = true;
-  readonly name = "number";
+  readonly name = "boolean";
 
   describe() {
-    return "number";
+    return "boolean";
   }
   create(snapshot?: any, environment?: any) {
     // TODO: implement actual type checking. For now, we just assume we're looking for numbers
-    if (typeof snapshot !== "number") {
-      throw new Error("Expected number");
+    if (typeof snapshot !== "boolean") {
+      throw new Error("Expected boolean");
     }
     return this.instantiate(null, "", environment, snapshot).value;
   }
@@ -54,7 +54,7 @@ export class NumberPrimitive {
   }
 
   checker(value: any): boolean {
-    return typeof value === "number";
+    return typeof value === "boolean";
   }
 
   isValidSnapshot(value: any, context: any): any {
