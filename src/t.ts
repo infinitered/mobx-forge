@@ -1,16 +1,5 @@
 import { model } from "./model";
-import { StringPrimitive } from "./StringPrimitive";
-import { NumberPrimitive } from "./NumberPrimitive";
-import { BooleanPrimitive } from "./BooleanPrimitive";
-import { DatePrimitive } from "./DatePrimitive";
-
-const string: any = new StringPrimitive();
-
-const number: any = new NumberPrimitive();
-
-const boolean: any = new BooleanPrimitive();
-
-const Date: any = new DatePrimitive();
+import { string, number, boolean, date } from "./types/primitives";
 
 export const getSnapshot = (target: any) => {
   return target.snapshot();
@@ -19,14 +8,14 @@ export const getSnapshot = (target: any) => {
 export const t = {
   model,
   string,
-  Date,
+  Date: date,
   boolean,
-  finite: null,
-  float: null,
-  identifier: null,
-  identifierNumber: null,
-  integer: null,
-  null: null,
+  finite: "to be implemented",
+  float: "to be implemented",
+  identifier: "to be implemented",
+  identifierNumber: "to be implemented",
+  integer: "to be implemented",
+  null: "to be implemented",
   number,
-  undefined: null,
+  undefined: "to be implemented",
 };

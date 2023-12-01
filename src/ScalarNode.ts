@@ -1,6 +1,7 @@
 import { fail } from "assert";
 import { StateNode } from "./StateNode";
-import { Hook, NodeLifeCycle, devMode, freeze } from "./utilities";
+import { devMode, freeze } from "./utilities";
+import { Hook, NodeLifeCycle } from "./state/state-utiltities";
 import { action } from "mobx";
 
 export class ScalarNode extends StateNode {

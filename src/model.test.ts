@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { t, getSnapshot } from "./t";
-import { Hook } from "./utilities";
+import { Hook } from "./state/state-utiltities";
 
 describe("Model instantiation", () => {
   describe("Model name", () => {

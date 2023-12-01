@@ -1,6 +1,6 @@
 import { describe, expect, it, test } from "bun:test";
 import { t } from "./t";
-import { Hook, NodeLifeCycle } from "./utilities";
+import { Hook, NodeLifeCycle } from "./state/state-utiltities";
 
 describe("t", () => {
   it("should be defined", () => {

@@ -5,6 +5,36 @@ import { devMode, fail } from "../utilities";
  * @internal
  * @hidden
  */
+export enum TypeFlags {
+  String = 1,
+  Number = 1 << 1,
+  Boolean = 1 << 2,
+  Date = 1 << 3,
+  Literal = 1 << 4,
+  Array = 1 << 5,
+  Map = 1 << 6,
+  Object = 1 << 7,
+  Frozen = 1 << 8,
+  Optional = 1 << 9,
+  Reference = 1 << 10,
+  Identifier = 1 << 11,
+  Late = 1 << 12,
+  Refinement = 1 << 13,
+  Union = 1 << 14,
+  Null = 1 << 15,
+  Undefined = 1 << 16,
+  Integer = 1 << 17,
+  Custom = 1 << 18,
+  SnapshotProcessor = 1 << 19,
+  Lazy = 1 << 20,
+  Finite = 1 << 21,
+  Float = 1 << 22,
+}
+
+/**
+ * @internal
+ * @hidden
+ */
 export const EMPTY_ARRAY: ReadonlyArray<any> = Object.freeze([]);
 
 /**

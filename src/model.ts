@@ -1,4 +1,5 @@
-import { devMode, fail, Hook } from "./utilities";
+import { devMode, fail } from "./utilities";
+import { Hook } from "./state/state-utiltities";
 
 /** @hidden */
 export interface ModelProperties {
