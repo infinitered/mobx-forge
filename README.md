@@ -1,5 +1,7 @@
 # mobx-forge
 
+Originally built by [Infinite Red](https://infinite.red), a U.S.-based web and mobile development company.
+
 To install dependencies:
 
 ```bash
